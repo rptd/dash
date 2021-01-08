@@ -86,6 +86,8 @@ namespace dash
             // always check the key
             while (true)
             {
+                if (!Console.KeyAvailable) continue;
+
                 var ch = Console.ReadKey(true);
                 if (ch.Key == ConsoleKey.LeftArrow)
                 {
@@ -148,8 +150,6 @@ namespace dash
 
         static void RenderMain()
         {
-            Console.SetWindowSize(80, 24);
-            Console.SetBufferSize(80, 24);
             Console.BackgroundColor = Config.BackgroundColor;
             Console.ForegroundColor = Config.ForegroundColor;
             Console.Clear();
@@ -161,6 +161,7 @@ namespace dash
                     if (RenderQueue.TryDequeue(out var method))
                     {
                         method.Invoke();
+                        Console.Out.Flush();
                     }
                 }
             }
